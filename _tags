@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: fa2feb5b6ffb2afba7499b7fab5a4fcd)
+# DO NOT EDIT (digest: 190a7ff94d07e4817f369af373fa6b17)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -30,6 +30,8 @@
 "server/logging.cmx": for-pack(Xenstored)
 "server/error.cmx": for-pack(Xenstored)
 "server/perms.cmx": for-pack(Xenstored)
+"server/security.cmx": for-pack(Xenstored)
+"server/dummy_security.cmx": for-pack(Xenstored)
 "server/persistence.cmx": for-pack(Xenstored)
 "server/introduce.cmx": for-pack(Xenstored)
 "server/connection.cmx": for-pack(Xenstored)
@@ -189,6 +191,8 @@ true: annot
 <server/perms.mli>: pkg_sexplib.syntax, syntax_camlp4o
 <server/logging_interface.ml>: pkg_sexplib.syntax
 <server/server.ml>: pkg_sexplib.syntax
+<server/security.ml{,i}>: pkg_sexplib.syntax
+<server/dummy_security.ml>: pkg_sexplib.syntax
 <cli/*.ml>: pkg_lwt.syntax
 <bench/*.ml>: pkg_lwt.syntax
 <core>: include

@@ -18,6 +18,7 @@ type contents = {
   creator: int;
   perms: Protocol.ACL.t;
   value: string;
+  xattrs: (string * string) list;
 } with sexp
 
 let string_of_contents c =
@@ -32,7 +33,7 @@ type t = {
 } with sexp
 
 let create _name _creator _perms _value =
-        { name = Symbol.of_string _name; contents = { creator = _creator; perms = _perms; value = _value }; children = []; }
+        { name = Symbol.of_string _name; contents = { creator = _creator; perms = _perms; value = _value; xattrs = [] }; children = []; }
 
 let get_contents node = node.contents
 

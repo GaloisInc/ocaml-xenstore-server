@@ -74,6 +74,7 @@ type permission =
 	| CONFIGURE
 
 let has (t: t) p =
+  Printf.printf "Perms.has\n%!";
 	if not(is_dom0 t) then raise Permission_denied
 
 (* check if owner of the current connection and of the current node are the same *)
@@ -84,6 +85,7 @@ let check_owner (connection:t) (node:Protocol.ACL.t) =
 
 (* check if the current connection has the requested perm on the current node *)
 let check (connection:t) request (node:Protocol.ACL.t) =
+  Printf.printf "Perms.check\n%!";
 	let check_acl domainid =
 		let perm =
 			if List.mem_assoc domainid node.Protocol.ACL.acl

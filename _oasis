@@ -7,6 +7,10 @@ License:     LGPL-2.1 with OCaml linking exception
 Plugins:     META (0.3)
 BuildTools:  ocamlbuild
 
+Flag flask
+  Description:        Enable Flask mandatory access control
+  Default:            false
+
 Library xenstore
   Pack:               true
   CompiledObject:     best
@@ -20,7 +24,8 @@ Library xenstored
   Pack:               true
   Path:               server
   Findlibname:        xenstored
-  Modules:            Logging, Error, Perms, Persistence, Introduce, Connection, Server, Effects
+  Modules:            Logging, Error, Perms, Security, Dummy_security,
+                      Persistence, Introduce, Connection, Server, Effects
   BuildDepends:       lwt, xenstore, irmin, irmin.backend, irmin.unix, git, sexplib
 
 # For backwards compat

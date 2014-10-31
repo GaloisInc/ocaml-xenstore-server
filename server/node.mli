@@ -20,6 +20,7 @@ type contents = {
   creator: int;
   perms: Protocol.ACL.t;
   value: string;
+  xattrs: (string * string) list;
 } with sexp
 (** The data contained within a Node in the tree *)
 

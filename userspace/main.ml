@@ -199,17 +199,31 @@ let program_thread daemon path pidfile enable_xen enable_unix irmin_path prefer_
           return false
   end in
 
+  (* Initialize the desired security module. *)
+  ( match () with
+    (* XXX command line arguments *)
+    | () -> return (module Dummy_security : Security.S)
+  ) >>= fun sec_m ->
+  let module Sec = (val sec_m : Security.S) in
+  let module SecCtx = Sec.Context in
+  let sec = Sec.init () in
+  let root_xattrs =
+    match SecCtx.tag with
+    | None   -> []
+    | Some x -> [(x, SecCtx.to_string (SecCtx.root ()))] in
+
   (* Create the root node *)
   V.create () >>= fun v ->
 
   fail_on_error (V.write v Protocol.Path.empty Node.({ creator = 0;
                                                        perms = Protocol.ACL.({ owner = 0; other = NONE; acl = []});
-                                                       value = "" })) >>= fun () ->
+                                                       value = "";
+                                                       xattrs = root_xattrs })) >>= fun () ->
   V.merge v "Adding root node\n\nA xenstore tree always has a root node, owned by domain 0." >>= fun ok ->
   ( if not ok then fail (Failure "Failed to merge transaction writing the root node") else return () ) >>= fun () ->
-  let module UnixServer = Server.Make(Sockets)(V) in
+  let module UnixServer = Server.Make(Sockets)(V)(Sec) in
   (*
-  let module DomainServer = Server.Make(Interdomain)(V) in
+  let module DomainServer = Server.Make(Interdomain)(V)(Sec) in
   *)
   lwt () = if not enable_xen && (not enable_unix) then begin
     error "You must specify at least one transport (--enable-unix and/or --enable-xen)";

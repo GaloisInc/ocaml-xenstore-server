@@ -1,8 +1,10 @@
 # OASIS_START
-# DO NOT EDIT (digest: ad9b49e485b5b767d85eafd03e395e44)
+# DO NOT EDIT (digest: fbaf49be03675e91fa16fc44ae399c61)
 Logging
 Error
 Perms
+Security
+Dummy_security
 Persistence
 Introduce
 Connection
